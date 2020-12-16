@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('device_activation',[RestAPIController::class,'deviceActivation']);
 Route::post('get_otp',[RestAPIController::class,'getOTP']);
 Route::post('verify_otp',[RestAPIController::class,'verifyOTP']);
+Route::post('get_trips',[RestAPIController::class,'getTrips']);
