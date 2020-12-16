@@ -118,80 +118,80 @@ class RestAPIController extends Controller
                 // generate OTP
                 $otp = rand(1000, 9999);
 
-                $curl = curl_init();
-                $app_code = "zPTTeR09Bf7";
-                $auth_key = "346743AvSmQp2ZmE5fa938afP1";
-                $template_id = "5fd759970b278d5dcf7aa8e3";
-                $sms_url = "https://api.msg91.com/api/v5/otp?extra_param=%7B%22VAR1%22%3A%22" . $app_code . "%22%7D&authkey=" . $auth_key . "&template_id=" . $template_id . "&mobile=" . $cc_mobile . "&otp=" . $otp . "&otp_length=4";
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => $sms_url,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => "",
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 30,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => "GET",
-                    CURLOPT_SSL_VERIFYHOST => 0,
-                    CURLOPT_SSL_VERIFYPEER => 0,
-                    CURLOPT_HTTPHEADER => array(
-                        "content-type: application/json",
-                    ),
-                ));
-                // print_r($curl);
-                $mresponse = curl_exec($curl);
-                $merr = curl_error($curl);
+                // $curl = curl_init();
+                // $app_code = "zPTTeR09Bf7";
+                // $auth_key = "346743AvSmQp2ZmE5fa938afP1";
+                // $template_id = "5fd759970b278d5dcf7aa8e3";
+                // $sms_url = "https://api.msg91.com/api/v5/otp?extra_param=%7B%22VAR1%22%3A%22" . $app_code . "%22%7D&authkey=" . $auth_key . "&template_id=" . $template_id . "&mobile=" . $cc_mobile . "&otp=" . $otp . "&otp_length=4";
+                // curl_setopt_array($curl, array(
+                //     CURLOPT_URL => $sms_url,
+                //     CURLOPT_RETURNTRANSFER => true,
+                //     CURLOPT_ENCODING => "",
+                //     CURLOPT_MAXREDIRS => 10,
+                //     CURLOPT_TIMEOUT => 30,
+                //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                //     CURLOPT_CUSTOMREQUEST => "GET",
+                //     CURLOPT_SSL_VERIFYHOST => 0,
+                //     CURLOPT_SSL_VERIFYPEER => 0,
+                //     CURLOPT_HTTPHEADER => array(
+                //         "content-type: application/json",
+                //     ),
+                // ));
+                // // print_r($curl);
+                // $mresponse = curl_exec($curl);
+                // $merr = curl_error($curl);
 
-                curl_close($curl);
-                if ($merr) {
-                    // echo "cURL Error #:".$merr;
-                    $merror = json_decode($merr);
-                    $response = array('status' => 'error', "message" => $merror);
-                    $responseCode = 200;
-                } else {
-                    // echo $mresponse;
-                    $mres = json_decode($mresponse);
-                    if ($mres->type == "success") {
-                        try {
-                            $updated = DB::table('users')
-                                ->where('phoneno', $mobile_no)
-                                ->update([
-                                    'otp' => $otp,
-                                    'is_expired' => 0,
-                                ]);
-
-                            if ($updated) {
-                                $response = array("status" => 'success', "request_id" => $mres->request_id, "message" => 'OTP Sent successfully');
-                                $responseCode = 200;
-                            } else {
-                                $response = array('status' => 'error', "message" => "Error on getting OTP");
-                                $responseCode = 200;
-                            }
-                        } catch (\Illuminate\Database\QueryException $e) {
-                            $response = array('status' => 'error', "message" => "Error on getting OTP");
-                            $responseCode = 200;
-                        }
-                    }
-                }
-
-                // try {
-                //     $updated = DB::table('users')
-                //         ->where('phoneno', $mobile_no)
-                //         ->update([
-                //             'otp' => $otp,
-                //             'is_expired' => 0,
-                //         ]);
-
-                //     if ($updated) {
-                //         $response = array("status" => 'success', "message" => 'OTP Sent successfully ' . $otp);
-                //         $responseCode = 200;
-                //     } else {
-                //         $response = array('status' => 'error', "message" => "Error on getting OTP");
-                //         $responseCode = 200;
-                //     }
-                // } catch (\Illuminate\Database\QueryException $e) {
-                //     $response = array('status' => 'error', "message" => "Error on getting OTP");
+                // curl_close($curl);
+                // if ($merr) {
+                //     // echo "cURL Error #:".$merr;
+                //     $merror = json_decode($merr);
+                //     $response = array('status' => 'error', "message" => $merror);
                 //     $responseCode = 200;
+                // } else {
+                //     // echo $mresponse;
+                //     $mres = json_decode($mresponse);
+                //     if ($mres->type == "success") {
+                //         try {
+                //             $updated = DB::table('users')
+                //                 ->where('phoneno', $mobile_no)
+                //                 ->update([
+                //                     'otp' => $otp,
+                //                     'is_expired' => 0,
+                //                 ]);
+
+                //             if ($updated) {
+                //                 $response = array("status" => 'success', "request_id" => $mres->request_id, "message" => 'OTP Sent successfully');
+                //                 $responseCode = 200;
+                //             } else {
+                //                 $response = array('status' => 'error', "message" => "Error on getting OTP");
+                //                 $responseCode = 200;
+                //             }
+                //         } catch (\Illuminate\Database\QueryException $e) {
+                //             $response = array('status' => 'error', "message" => "Error on getting OTP");
+                //             $responseCode = 200;
+                //         }
+                //     }
                 // }
+
+                try {
+                    $updated = DB::table('users')
+                        ->where('phoneno', $mobile_no)
+                        ->update([
+                            'otp' => $otp,
+                            'is_expired' => 0,
+                        ]);
+
+                    if ($updated) {
+                        $response = array("status" => 'success', "message" => 'OTP Sent successfully ' . $otp);
+                        $responseCode = 200;
+                    } else {
+                        $response = array('status' => 'error', "message" => "Error on getting OTP");
+                        $responseCode = 200;
+                    }
+                } catch (\Illuminate\Database\QueryException $e) {
+                    $response = array('status' => 'error', "message" => "Error on getting OTP");
+                    $responseCode = 200;
+                }
 
             } else {
                 $response = array('status' => 'error', "message" => "Invalid Mobile Number");
