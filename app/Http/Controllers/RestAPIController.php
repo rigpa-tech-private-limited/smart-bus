@@ -318,7 +318,7 @@ class RestAPIController extends Controller
             }
 
             $response = array('status' => 'success', 'trips' => $tripRes);
-            $responseCode = 401;
+            $responseCode = 200;
         } else {
             $response = array('status' => 'error', 'message' => 'unauthorized');
             $responseCode = 401;
