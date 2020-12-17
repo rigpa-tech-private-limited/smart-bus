@@ -303,6 +303,8 @@ class RestAPIController extends Controller
 
             $curr_date = date('Y-m-d');
             $tripRes = array();
+
+            $chkday = date("D", strtotime($curr_date));
             echo $nQuery = "SELECT td.rowid tripid,td.routeid,td.bus_id,td.business_id,IF(td.running_from_date LIKE '0000-00-00 00:00:00%', DATE_FORMAT(NOW(), '%W, %e %M, %Y'), DATE_FORMAT(td.running_from_date, '%W, %e %M, %Y')) trip_date,td.name trip_name,td.running_time trip_time,r.waypoints trip_waypoints,r.locations trip_locations,r.tot_distance trip_distance, r.tot_time trip_duration,td.route_type,b.reg_no bus_number,b.name bus_name FROM trip_details td INNER JOIN `bus_details` b ON b.rowid=td.bus_id INNER JOIN route r on r.rowid=td.routeid WHERE (recurring='n' AND ((DATE(running_from_date)  <= '$curr_date' AND DATE(running_to_date) >= '$curr_date') OR DATE(running_from_date)='$curr_date')) OR (recurring='y' AND (days LIKE '%,$chkday' or days LIKE '%,$chkday,%' or days LIKE '$chkday,%' or days LIKE '$chkday')) AND td.driver_id='$driver_id' ORDER BY running_time ASC";
             $nResults = DB::select($nQuery);
             $nCount = count($nResults);
