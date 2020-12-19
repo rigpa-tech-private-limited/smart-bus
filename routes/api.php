@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\DriverAppApiController;
 use App\Http\Controllers\RestAPIController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('device_activation', [RestAPIController::class, 'deviceActivation']);
-Route::post('get_otp', [RestAPIController::class, 'getOTP']);
-Route::post('verify_otp', [RestAPIController::class, 'verifyOTP']);
-Route::post('get_trips', [RestAPIController::class, 'getTrips']);
-Route::post('start_trip', [RestAPIController::class, 'startTrip']);
-Route::post('close_trip', [RestAPIController::class, 'closeTrip']);
+Route::post('get_otp', [DriverAppApiController::class, 'getOTP']);
+Route::post('verify_otp', [DriverAppApiController::class, 'verifyOTP']);
+Route::post('get_trips', [DriverAppApiController::class, 'getTrips']);
+Route::post('start_trip', [DriverAppApiController::class, 'startTrip']);
+Route::post('close_trip', [DriverAppApiController::class, 'closeTrip']);
