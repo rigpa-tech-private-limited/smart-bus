@@ -26,5 +26,11 @@ This app is easy to use and puts important information such as routes, schedules
 - ps -ef | grep php
 - kill -9 17598
 - mysql -u root -p
+- sudo service apache2 reload
 - sudo systemctl restart apache2
 - SET SQL_MODE='ALLOW_INVALID_DATES'
+- sudo chown -R :www-data storage
+- sudo chown -R :www-data bootstrap/cache/
+- chmod -R 775 storage
+- chmod -R 775 bootstrap/cache/
+- sudo a2ensite *
