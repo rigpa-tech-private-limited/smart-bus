@@ -18,8 +18,12 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
+// Attendance Device Releated API Routes
 Route::post('device_activation', [RestAPIController::class, 'deviceActivation']);
+Route::post('user_sync', [RestAPIController::class, 'getUsers']);
+Route::post('attendance', [RestAPIController::class, 'markAttendance']);
+
+// Driver App Releated API Routes
 Route::post('get_otp', [DriverAppApiController::class, 'getOTP']);
 Route::post('verify_otp', [DriverAppApiController::class, 'verifyOTP']);
 Route::post('get_trips', [DriverAppApiController::class, 'getTrips']);
